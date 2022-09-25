@@ -4,6 +4,7 @@ import { defineConfigs } from "v-network-graph";
 import type { Node, Nodes, Edges } from "v-network-graph";
 
 export const useGraphStore = defineStore("graph", () => {
+  const isDirected = ref(false);
   const nodes = ref({} as Nodes);
   const edges = ref({} as Edges);
   const selectedNodes = ref<string[]>([]);
@@ -26,9 +27,7 @@ export const useGraphStore = defineStore("graph", () => {
         },
         gap: 5,
         marker: {
-          target: {
-            type: "none",
-          },
+          target: {},
         },
       },
     })
@@ -60,15 +59,24 @@ export const useGraphStore = defineStore("graph", () => {
     }
   }
 
+  function toogleDirection() {
+    isDirected.value = !isDirected.value;
+    configs.value.edge!.marker!.target!.type = isDirected.value
+      ? "arrow"
+      : "none";
+  }
+
   return {
     nodes,
     edges,
     selectedNodes,
     selectedEdges,
     configs,
+    isDirected,
     addNode,
     removeNode,
     addEdge,
     removeEdge,
+    toogleDirection,
   };
 });
