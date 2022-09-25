@@ -6,10 +6,19 @@ import NodeModal from "@/components/NodeModal.vue";
 import EdgeModal from "@/components/EdgeModal.vue";
 
 const graphStore = useGraphStore();
-const { selectedNodes, selectedEdges } = storeToRefs(graphStore);
+const { selectedNodes, selectedEdges, configs } = storeToRefs(graphStore);
 const { removeNode, removeEdge } = graphStore;
 const nodeModal = ref();
 const edgeModal = ref();
+const isDirected = ref(false);
+
+const onDirectedClick = () => {
+  isDirected.value = !isDirected.value;
+
+  configs.value.edge!.marker!.target!.type = isDirected.value
+    ? "arrow"
+    : "none";
+};
 </script>
 
 <template>
@@ -42,6 +51,10 @@ const edgeModal = ref();
         Remove
       </button>
       <EdgeModal ref="edgeModal" />
+      <label class="checkbox">
+        <input type="checkbox" :checked="isDirected" @click="onDirectedClick" />
+        Directed
+      </label>
     </div>
   </nav>
 </template>

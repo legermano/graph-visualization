@@ -24,6 +24,12 @@ export const useGraphStore = defineStore("graph", () => {
         normal: {
           width: 3,
         },
+        gap: 5,
+        marker: {
+          target: {
+            type: "none",
+          },
+        },
       },
     })
   );
