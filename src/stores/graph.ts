@@ -25,9 +25,16 @@ export const useGraphStore = defineStore("graph", () => {
         normal: {
           width: 3,
         },
-        gap: 5,
+        type: "curve",
+        gap: 40,
         marker: {
           target: {},
+        },
+        selfLoop: {
+          radius: 14,
+          offset: 16,
+          angle: 180,
+          isClockwise: true,
         },
       },
     })
@@ -46,9 +53,21 @@ export const useGraphStore = defineStore("graph", () => {
   }
 
   function addEdge(name: string) {
-    if (selectedNodes.value.length !== 2) return;
-    const [source, target] = selectedNodes.value;
+    if (selectedNodes.value.length !== 1 && selectedNodes.value.length !== 2) {
+      return;
+    }
+
     const edgeId = `edge${nextEdgeIndex.value}`;
+
+    let source = null;
+    let target = null;
+    if (selectedNodes.value.length === 1) {
+      source = selectedNodes.value[0];
+      target = selectedNodes.value[0];
+    } else {
+      [source, target] = selectedNodes.value;
+    }
+
     edges.value[edgeId] = { source, target, label: name };
     nextEdgeIndex.value++;
   }

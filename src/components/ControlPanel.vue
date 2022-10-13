@@ -4,12 +4,19 @@ import { useGraphStore } from "@/stores/graph";
 import { storeToRefs } from "pinia";
 import NodeModal from "@/components/NodeModal.vue";
 import EdgeModal from "@/components/EdgeModal.vue";
+import Search from "@/modules/search";
 
 const graphStore = useGraphStore();
-const { selectedNodes, selectedEdges, isDirected } = storeToRefs(graphStore);
+const { selectedNodes, selectedEdges, isDirected, nodes, edges } =
+  storeToRefs(graphStore);
 const { removeNode, removeEdge, toogleDirection } = graphStore;
 const nodeModal = ref();
 const edgeModal = ref();
+
+const bfs = () => {
+  const search = new Search(nodes.value, edges.value);
+  search.dfs(selectedNodes.value[0]);
+};
 </script>
 
 <template>
@@ -30,7 +37,7 @@ const edgeModal = ref();
       <button
         class="button"
         @click="edgeModal.openModal()"
-        :disabled="selectedNodes.length != 2"
+        :disabled="selectedNodes.length != 1 && selectedNodes.length != 2"
       >
         Add
       </button>
@@ -50,6 +57,7 @@ const edgeModal = ref();
         />
         Directed
       </label>
+      <button class="button" @click="bfs">BFS</button>
     </div>
   </nav>
 </template>
