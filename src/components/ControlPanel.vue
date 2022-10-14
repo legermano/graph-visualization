@@ -2,9 +2,8 @@
 import { ref } from "vue";
 import { useGraphStore } from "@/stores/graph";
 import { storeToRefs } from "pinia";
-import NodeModal from "@/components/NodeModal.vue";
-import EdgeModal from "@/components/EdgeModal.vue";
-import Search from "@/modules/search";
+import { NodeModal, EdgeModal } from "@/components";
+import { search } from "@/modules";
 
 const graphStore = useGraphStore();
 const { selectedNodes, selectedEdges, isDirected, nodes, edges } =
@@ -13,9 +12,13 @@ const { removeNode, removeEdge, toogleDirection } = graphStore;
 const nodeModal = ref();
 const edgeModal = ref();
 
+const dfs = () => {
+  const s = new search(nodes.value, edges.value, isDirected.value);
+  s.dfs(selectedNodes.value[0]);
+};
 const bfs = () => {
-  const search = new Search(nodes.value, edges.value);
-  search.dfs(selectedNodes.value[0]);
+  const s = new search(nodes.value, edges.value, isDirected.value);
+  s.bfs(selectedNodes.value[0]);
 };
 </script>
 
@@ -57,13 +60,19 @@ const bfs = () => {
         />
         Directed
       </label>
-      <button class="button" @click="bfs">BFS</button>
+      <label>Searchs:</label>
+      <button class="button" @click="dfs" :disabled="selectedNodes.length != 1">
+        DFS
+      </button>
+      <button class="button" @click="bfs" :disabled="selectedNodes.length != 1">
+        BFS
+      </button>
     </div>
   </nav>
 </template>
 
 <style scoped>
-.btn-actions * {
+.btn-actions *:not(.modal) {
   margin-right: 1rem;
 }
 </style>

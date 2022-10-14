@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import ControlPanel from "@/components/ControlPanel.vue";
-import { useGraphStore } from "@/stores/graph";
+import { ControlPanel, SearchNotification } from "@/components";
+import { useGraphStore } from "@/stores";
 
 const graphStore = useGraphStore();
 const { nodes, edges, selectedNodes, selectedEdges, configs } =
@@ -9,6 +9,7 @@ const { nodes, edges, selectedNodes, selectedEdges, configs } =
 </script>
 
 <template>
+  <SearchNotification />
   <div class="container">
     <ControlPanel />
     <nav class="panel graph-panel">
@@ -40,7 +41,7 @@ const { nodes, edges, selectedNodes, selectedEdges, configs } =
           />
         </template>
       </v-network-graph>
-      <span class="icon-text">
+      <span class="icon-text mt-2">
         <span class="icon">
           <i class="fa-solid fa-arrow-pointer"></i>
         </span>
@@ -59,6 +60,6 @@ const { nodes, edges, selectedNodes, selectedEdges, configs } =
   height: calc(100vh - 1rem);
 }
 .graph-panel {
-  height: 80%;
+  height: 75%;
 }
 </style>

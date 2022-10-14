@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useGraphStore } from "@/stores/graph";
+import { useGraphStore } from "@/stores";
 import BaseModal from "./BaseModal.vue";
 
 const { addEdge } = useGraphStore();

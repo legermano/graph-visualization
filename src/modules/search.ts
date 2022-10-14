@@ -1,22 +1,25 @@
+import { useNotificationStore } from "@/stores";
 import type { Edges, Nodes } from "v-network-graph";
 
 export default class Search {
   map: Map<string, string[]>;
   nodes: Nodes;
   edges: Edges;
+  directed: boolean;
+  visitedNodes: string[];
 
-  constructor(nodes: Nodes, edges: Edges) {
+  constructor(nodes: Nodes, edges: Edges, directed: boolean) {
     this.map = new Map();
     this.nodes = nodes;
     this.edges = edges;
+    this.directed = directed;
+    this.visitedNodes = [];
 
     Object.entries(nodes).forEach(([nodeId]) => this._addNode(nodeId));
 
     Object.entries(edges).forEach(([, edge]) => {
       this._addEdge(edge.source, edge.target);
     });
-
-    console.log(this.map);
   }
 
   _addNode(node: string) {
@@ -25,18 +28,65 @@ export default class Search {
 
   _addEdge(source: string, target: string) {
     this.map.get(source)?.push(target);
-    this.map.get(target)?.push(source);
+    if (!this.directed) {
+      this.map.get(target)?.push(source);
+    }
   }
 
-  dfs(start: string, visited = new Set()) {
-    console.log(this.nodes[start]);
+  // Deep-firts search
+  dfs(start: string) {
+    this.visitedNodes = [];
+    this._dfs(start);
+    useNotificationStore().notificateSearch(
+      "DFS",
+      `From node ${this.nodes[start].name}: ` + this.visitedNodes.join(", ")
+    );
+  }
+
+  _dfs(start: string, visited = new Set()) {
+    this.visitedNodes.push(this.nodes[start].name ?? "Unnamed node");
     visited.add(start);
     const children = this.map.get(start);
 
     children?.forEach((child) => {
       if (!visited.has(child)) {
-        this.dfs(child, visited);
+        this._dfs(child, visited);
       }
     });
+  }
+
+  // Breadth-first search
+  bfs(start: string) {
+    this.visitedNodes = [];
+    this._bfs(start);
+    useNotificationStore().notificateSearch(
+      "BFS",
+      `From node ${this.nodes[start].name}: ` + this.visitedNodes.join(", ")
+    );
+  }
+
+  _bfs(start: string) {
+    const visited = new Set();
+    const queue = [];
+
+    queue.push(start);
+    visited.add(start);
+
+    while (queue.length > 0) {
+      const node = queue.shift();
+
+      if (node == undefined) return;
+
+      this.visitedNodes.push(this.nodes[node].name ?? "Unnamed node");
+
+      const children = this.map.get(node);
+
+      children?.forEach((child) => {
+        if (!visited.has(child)) {
+          visited.add(child);
+          queue.push(child);
+        }
+      });
+    }
   }
 }
