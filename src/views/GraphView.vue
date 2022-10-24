@@ -4,7 +4,7 @@ import { ControlPanel, SearchNotification } from "@/components";
 import { useGraphStore } from "@/stores";
 
 const graphStore = useGraphStore();
-const { nodes, edges, selectedNodes, selectedEdges, configs } =
+const { nodes, edges, paths, selectedNodes, selectedEdges, configs, layouts } =
   storeToRefs(graphStore);
 </script>
 
@@ -19,6 +19,8 @@ const { nodes, edges, selectedNodes, selectedEdges, configs } =
         v-model:selected-edges="selectedEdges"
         :nodes="nodes"
         :edges="edges"
+        :paths="paths"
+        :layouts="layouts"
         :configs="configs"
       >
         <template #override-node-label="{ scale, text }">
@@ -34,7 +36,7 @@ const { nodes, edges, selectedNodes, selectedEdges, configs } =
         </template>
         <template #edge-label="{ edge, ...slotProps }">
           <v-edge-label
-            :text="edge.label"
+            :text="edge.cost"
             align="center"
             vertical-align="above"
             v-bind="slotProps"

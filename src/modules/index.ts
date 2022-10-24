@@ -1,1 +1,2 @@
-export { default as search } from "./search";
+export { default as Search } from "./search";
+export { default as DijkstraAlgorithm } from "./dijkstra";

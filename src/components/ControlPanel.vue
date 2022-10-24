@@ -3,22 +3,33 @@ import { ref } from "vue";
 import { useGraphStore } from "@/stores/graph";
 import { storeToRefs } from "pinia";
 import { NodeModal, EdgeModal } from "@/components";
-import { search } from "@/modules";
+import { Search, DijkstraAlgorithm } from "@/modules";
 
 const graphStore = useGraphStore();
-const { selectedNodes, selectedEdges, isDirected, nodes, edges } =
+const { selectedNodes, selectedEdges, isDirected, nodes, edges, paths } =
   storeToRefs(graphStore);
-const { removeNode, removeEdge, toogleDirection } = graphStore;
+const { removeNode, removeEdge, toogleDirection, clearAll, dijkstraSample } =
+  graphStore;
 const nodeModal = ref();
 const edgeModal = ref();
 
 const dfs = () => {
-  const s = new search(nodes.value, edges.value, isDirected.value);
+  const s = new Search(nodes.value, edges.value, isDirected.value);
   s.dfs(selectedNodes.value[0]);
 };
 const bfs = () => {
-  const s = new search(nodes.value, edges.value, isDirected.value);
+  const s = new Search(nodes.value, edges.value, isDirected.value);
   s.bfs(selectedNodes.value[0]);
+};
+const dijkstra = () => {
+  const [source, target] = selectedNodes.value;
+  const dijkstra = new DijkstraAlgorithm(edges.value);
+  const routeOfNodes = dijkstra.findShortestPath([source, target]);
+
+  if (routeOfNodes) {
+    const routeOfEdges = dijkstra.convertNodesToEdges(routeOfNodes);
+    paths.value = { shortestPath: { edges: routeOfEdges } };
+  }
 };
 </script>
 
@@ -67,6 +78,16 @@ const bfs = () => {
       <button class="button" @click="bfs" :disabled="selectedNodes.length != 1">
         BFS
       </button>
+      <button
+        class="button"
+        @click="dijkstra"
+        :disabled="selectedNodes.length != 2"
+      >
+        Dijkstra
+      </button>
+      <label>Controls</label>
+      <button class="button" @click="clearAll">Clear all</button>
+      <button class="button" @click="dijkstraSample">Dijkstra Sample</button>
     </div>
   </nav>
 </template>
