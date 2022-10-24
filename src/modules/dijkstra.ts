@@ -7,10 +7,12 @@ export default class DijkstraAlgorithm {
   map: GraphMap;
   edgeMap: EdgeMap;
 
+  // Custom sorter
   _sorter = function (a: string, b: string) {
     return parseFloat(a) - parseFloat(b);
   };
 
+  // Initialize class converting visual nodes and edged to matrix
   constructor(edges: Edges) {
     const map: GraphMap = {};
     const edgeMap: EdgeMap = {};
@@ -43,6 +45,7 @@ export default class DijkstraAlgorithm {
     return this._findShortestPath(this.map, viaNodes);
   }
 
+  // Get the nodes and convert it to its edges
   convertNodesToEdges(nodes: string[]): string[] {
     if (nodes.length === 0) {
       return [];
@@ -60,6 +63,7 @@ export default class DijkstraAlgorithm {
     return edges;
   }
 
+  // Extracts keys from object
   _extractKeys(obj: object) {
     const keys = [];
     let key;

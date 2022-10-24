@@ -17,7 +17,7 @@ export const useGraphStore = defineStore("graph", () => {
   const configs = ref(
     defineConfigs({
       view: {
-        panEnabled: false,
+        panEnabled: true,
       },
       node: {
         selectable: 2,
@@ -60,18 +60,18 @@ export const useGraphStore = defineStore("graph", () => {
 
   function dijkstraSample() {
     nodes.value = {
-      node1: { name: "" },
-      node2: { name: "" },
-      node3: { name: "" },
-      node4: { name: "" },
-      node5: { name: "" },
-      node6: { name: "" },
-      node7: { name: "" },
-      node8: { name: "" },
-      node9: { name: "" },
-      node10: { name: "" },
-      node11: { name: "" },
-      node12: { name: "" },
+      node1: { name: "Lajeado" },
+      node2: { name: "Estrela" },
+      node3: { name: "Arroio do Meio" },
+      node4: { name: "Teotônia" },
+      node5: { name: "Colinas" },
+      node6: { name: "Roca Sales" },
+      node7: { name: "Paverama" },
+      node8: { name: "Westfália" },
+      node9: { name: "Encantado" },
+      node10: { name: "Poço das Antas" },
+      node11: { name: "Imigrante" },
+      node12: { name: "Boa Vista do Sul" },
     };
 
     edges.value = {

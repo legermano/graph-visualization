@@ -87,7 +87,9 @@ const dijkstra = () => {
       </button>
       <label>Controls</label>
       <button class="button" @click="clearAll">Clear all</button>
-      <button class="button" @click="dijkstraSample">Dijkstra Sample</button>
+      <button class="button" @click="dijkstraSample">
+        Dijkstra Sample (Cities)
+      </button>
     </div>
   </nav>
 </template>

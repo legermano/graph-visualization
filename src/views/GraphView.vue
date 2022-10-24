@@ -27,10 +27,11 @@ const { nodes, edges, paths, selectedNodes, selectedEdges, configs, layouts } =
           <text
             x="0"
             y="0"
-            :font-size="9 * scale"
+            :font-size="10 * scale"
+            font-weight="bold"
             text-anchor="middle"
             dominant-baseline="central"
-            fill="#ffffff"
+            fill="#000000"
             >{{ text }}</text
           >
         </template>
