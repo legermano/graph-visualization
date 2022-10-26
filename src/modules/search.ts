@@ -37,7 +37,7 @@ export default class Search {
   dfs(start: string) {
     this.visitedNodes = [];
     this._dfs(start);
-    useNotificationStore().notificateSearch(
+    useNotificationStore().notificate(
       "DFS",
       `From node ${this.nodes[start].name}: ` + this.visitedNodes.join(", ")
     );
@@ -59,7 +59,7 @@ export default class Search {
   bfs(start: string) {
     this.visitedNodes = [];
     this._bfs(start);
-    useNotificationStore().notificateSearch(
+    useNotificationStore().notificate(
       "BFS",
       `From node ${this.nodes[start].name}: ` + this.visitedNodes.join(", ")
     );
@@ -88,5 +88,52 @@ export default class Search {
         }
       });
     }
+  }
+
+  topologicalSort() {
+    this.visitedNodes = [];
+    this._topologicalSort();
+    console.log("Topological Sort");
+    useNotificationStore().notificate(
+      "Topological Sort",
+      "Order: " + this.visitedNodes.join(", ")
+    );
+  }
+
+  _topologicalSort() {
+    const stack = new Array<string>();
+    const visited = new Set<string>();
+
+    this.map.forEach((_children, node) => {
+      if (!visited.has(node)) {
+        this._topologicalSortUtils(node, visited, stack);
+      }
+    });
+
+    while (stack.length != 0) {
+      const node = stack.pop();
+
+      if (node != undefined) {
+        this.visitedNodes.push(this.nodes[node].name ?? "Unnamed node");
+      }
+    }
+  }
+
+  _topologicalSortUtils(
+    node: string,
+    visited: Set<string>,
+    stack: Array<string>
+  ) {
+    visited.add(node);
+
+    const children = this.map.get(node);
+
+    children?.forEach((child) => {
+      if (!visited.has(child)) {
+        this._topologicalSortUtils(child, visited, stack);
+      }
+    });
+
+    stack.push(node);
   }
 }

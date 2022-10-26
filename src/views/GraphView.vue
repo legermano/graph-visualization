@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { ControlPanel, SearchNotification } from "@/components";
+import { ControlPanel, NotificationCard } from "@/components";
 import { useGraphStore } from "@/stores";
 
 const graphStore = useGraphStore();
@@ -9,7 +9,7 @@ const { nodes, edges, paths, selectedNodes, selectedEdges, configs, layouts } =
 </script>
 
 <template>
-  <SearchNotification />
+  <NotificationCard />
   <div class="container">
     <ControlPanel />
     <nav class="panel graph-panel">

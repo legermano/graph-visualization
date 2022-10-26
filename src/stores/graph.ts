@@ -110,6 +110,28 @@ export const useGraphStore = defineStore("graph", () => {
     };
   }
 
+  function topologicalSample() {
+    nodes.value = {
+      node1: { name: "Modelagem de dados" },
+      node2: { name: "Algoritmos e programação" },
+      node3: { name: "Banco de dados" },
+      node4: { name: "POO" },
+      node5: { name: "Prog. Aplicações" },
+      node6: { name: "Prog. Est. Dados I" },
+      node7: { name: "Prog. Est. Dados II" },
+    };
+
+    edges.value = {
+      edge1: { source: "node1", target: "node3", cost: "" },
+      edge2: { source: "node2", target: "node3", cost: "" },
+      edge3: { source: "node2", target: "node4", cost: "" },
+      edge4: { source: "node3", target: "node5", cost: "" },
+      edge5: { source: "node4", target: "node5", cost: "" },
+      edge6: { source: "node5", target: "node6", cost: "" },
+      edge7: { source: "node6", target: "node7", cost: "" },
+    };
+  }
+
   function addNode(node: Node) {
     const nodeId = `node${nextNodeIndex.value}`;
     nodes.value[nodeId] = node;
@@ -171,5 +193,6 @@ export const useGraphStore = defineStore("graph", () => {
     toogleDirection,
     clearAll,
     dijkstraSample,
+    topologicalSample,
   };
 });

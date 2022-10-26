@@ -3,29 +3,29 @@ import { defineStore } from "pinia";
 import type { INotification } from "@/interface";
 
 export const useNotificationStore = defineStore("notification", () => {
-  const searchNotifications = ref([] as INotification[]);
+  const notifications = ref([] as INotification[]);
 
-  function notificateSearch(title: string, text: string): void {
+  function notificate(title: string, text: string): void {
     const id = new Date().getTime();
 
-    searchNotifications.value.push({
+    notifications.value.push({
       id,
       title,
       text,
     });
 
-    setTimeout(() => clearSearch(id), 10000);
+    setTimeout(() => clear(id), 10000);
   }
 
-  function clearSearch(id: number): void {
-    searchNotifications.value = searchNotifications.value.filter(
+  function clear(id: number): void {
+    notifications.value = notifications.value.filter(
       (notification) => notification.id != id
     );
   }
 
   return {
-    searchNotifications,
-    notificateSearch,
-    clearSearch,
+    notifications,
+    notificate,
+    clear,
   };
 });

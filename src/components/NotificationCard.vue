@@ -3,15 +3,15 @@ import { storeToRefs } from "pinia";
 import { useNotificationStore } from "@/stores";
 
 const store = useNotificationStore();
-const { clearSearch } = store;
-const { searchNotifications } = storeToRefs(store);
+const { clear } = store;
+const { notifications } = storeToRefs(store);
 </script>
 
 <template>
   <div class="notifications">
     <article
       class="message is-info"
-      v-for="notification in searchNotifications"
+      v-for="notification in notifications"
       :key="notification.id"
     >
       <div class="message-header">
@@ -19,7 +19,7 @@ const { searchNotifications } = storeToRefs(store);
         <button
           class="delete"
           aria-label="delete"
-          @click="clearSearch(notification.id)"
+          @click="clear(notification.id)"
         ></button>
       </div>
       <div class="message-body">{{ notification.text }}</div>
